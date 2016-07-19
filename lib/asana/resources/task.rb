@@ -71,10 +71,12 @@ module Asana
         # explicitly if you specify a `project` or a `parent` task instead.
         #
         # workspace - [Id] The workspace to create a task in.
+        # followers = [Array] The follower ids for this task.
         # options - [Hash] the request I/O options.
         # data - [Hash] the attributes to post.
-        def create(client, workspace: nil, options: {}, **data)
+        def create(client, workspace: nil, followers: nil, options: {}, **data)
           with_params = data.merge(workspace: workspace).reject { |_,v| v.nil? || Array(v).empty? }
+          with_params.merge!(followers: followers) unless followers.nil?
           self.new(parse(client.post("/tasks", body: with_params, options: options)).first, client: client)
         end
 
