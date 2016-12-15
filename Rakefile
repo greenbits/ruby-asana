@@ -12,15 +12,16 @@ end
 
 desc 'Generates a test resource from a YAML using the resource template.'
 task :codegen do
+  # TODO: I believe this is obsolete and can be removed
   `node spec/support/codegen.js`
 end
 
 namespace :bump do
   def read_version
     File.readlines('./lib/asana/version.rb')
-      .detect { |l| l =~ /VERSION/ }
-      .scan(/VERSION = '([^']+)/).flatten.first.split('.')
-      .map { |n| Integer(n) }
+        .detect { |l| l =~ /VERSION/ }
+        .scan(/VERSION = '([^']+)/).flatten.first.split('.')
+        .map { |n| Integer(n) }
   end
 
   # rubocop:disable Metrics/MethodLength
@@ -62,4 +63,4 @@ EOS
   end
 end
 
-task default: [:codegen, :spec, :rubocop, :yard]
+task default: [:spec, :rubocop, :yard]
